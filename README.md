@@ -3,14 +3,15 @@ tclw is a Linux BASH script to detect and notify about Pirate Chain's Treasure C
 To make that script work:
 1. Download it for example from here: https://github.com/arrrtto/tclw/blob/main/tclw
 (click the small down-arrow icon)
-2. Move the downloaded tclw.sh file to the folder /usr/local/bin/
-3. Right-click on it -> Properties -> Permissions -> tick the box "Allow executing file as program" -> Close
-4. Open Terminal and enter this command: **tclw**
+3. Move the downloaded tclw.sh file to the folder /usr/local/bin/
+4. Right-click on it -> Properties -> Permissions -> tick the box "Allow executing file as program" -> Close
+5. Open Terminal and enter this command: **tclw**
 and press Enter. That should do the needful.
 
 
 Another way to "install" the script is to do it completely via Terminal.
 Open Terminal and execute this (Copy-paste):
+
 **cd /usr/local/bin && wget https://raw.githubusercontent.com/arrrtto/tclw/main/tclw.sh && chmod +x tclw**
 
 and then you can just execute: **tclw**
