@@ -12,7 +12,7 @@ and press Enter. That should do the needful.
 Another way to "install" the script is to do it completely via Terminal.
 Open Terminal and execute this (Copy-paste):
 
-**cd /usr/local/bin && wget https://raw.githubusercontent.com/arrrtto/tclw/main/tclw.sh && chmod +x tclw**
+**cd /usr/local/bin && wget https://raw.githubusercontent.com/arrrtto/tclw/main/tclw && chmod +x tclw**
 
 and then you can just execute: **tclw**
 and it will do the needful :)
