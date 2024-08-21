@@ -17,4 +17,9 @@ Open Terminal and execute this (Copy-paste):
 and then you can just execute: **tclw**
 and it will do the needful :)
 
+If this fails for some reason (and you use Linux Mint or Ubuntu), then try this:
+
+**mkdir -p /home/$USER/bin && cd /home/$USER/bin && wget https://raw.githubusercontent.com/arrrtto/tclw/main/tclw && chmod +x tclw**
+
+
 Any questions, reach out to me via artto@tuta.com or in Telegram @divineloveartto
