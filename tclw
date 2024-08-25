@@ -3,13 +3,14 @@
 # Made by Artto (aka DivineLoveArtto aka Arrrtto)
 # Copyleft 2024
 
-
 # Check currently installed Lite Wallet version
 
 lwbinaryfile=$(which piratewallet-lite)
 if [[ "$?" == "1" ]]; then
 lwinstalled="no"
 fi
+
+lwbinaryfile=$(which piratewallet-lite)
 if [[ "$?" == "0" ]]; then
 lwinstalled="yes"
 cat $lwbinaryfile | grep -aoE '.......PirateWallet Lightclient v' | sed 's/PirateWallet Lightclient v//' > /tmp/lwbinver0.txt
@@ -34,11 +35,12 @@ tccurrentversionbydpkg=$(cat /tmp/tcverdpkg.txt)
 fi
 
 
+
 # Check versions on GitHub
 
 echo Checking GitHub...
-gittc=$(curl "https://github.com/PirateNetwork/pirate")
-gitlite=$(curl "https://github.com/PirateNetwork/PirateWallet-Lite")
+gittc=$(curl -s "https://github.com/PirateNetwork/pirate")
+gitlite=$(curl -s "https://github.com/PirateNetwork/PirateWallet-Lite")
 # curl https://github.com/PirateNetwork/pirate | grep -oP 'releases/tag/v\K[0-9\.]+'
 # curl https://github.com/PirateNetwork/PirateWallet-Lite | grep -oP 'releases/tag/\K[0-9\.]+'
 
@@ -46,10 +48,12 @@ delimiter=","
 delimiter2=":"
 expected=""
 
-echo "$gittc" | grep -oP 'releases/tag/v\K[0-9\.]+' > filteredresult
-tcversion=$(cat filteredresult)
-echo "$gitlite" | grep -oP 'releases/tag/\K[0-9\.]+' > filteredresult
-liteversion=$(cat filteredresult)
+echo "$gittc" | grep -oP 'releases/tag/v\K[0-9\.]+' > /tmp/filteredresult
+tcversion=$(cat /tmp/filteredresult)
+echo "$gitlite" | grep -oP 'releases/tag/\K[0-9\.]+' > /tmp/filteredresult
+liteversion=$(cat /tmp/filteredresult)
+
+
 
 clear
 echo Treasure Chest info:
@@ -91,14 +95,66 @@ fi
 
 if [[ $tcversion != $tccurrentversionbybin ]]; then
 echo
-echo "There is a newer version -" $tcversion "- of Treasure Chest available!"
+echo "Treasure Chest version" $tcversion "available!"
 echo
 fi
 
 if [[ $liteversion != $lwcurrentversionbybin ]]; then
 echo
-"There is a newer version -" $liteversion "- of Lite Wallet available!"
+echo "Lite Wallet version" $liteversion "available!"
 echo
 fi
 
 
+if [ "$1" == "" ]; then
+echo
+echo "---------------------------------------------------------------"
+echo
+echo "If you want to install/upgrade Treasure Chest, run the command:"
+echo "tclw tc"
+echo
+echo "If you want to install/upgrade Lite Wallet, run the command:"
+echo "tclw lw"
+echo
+echo
+fi
+
+
+# Treasure Chest download & installation
+
+tcgithublink="https://github.com/PirateNetwork/pirate/releases/tag/v$tcversion"
+tcpage=$(curl -s $tcgithublink)
+tcdeb=$(echo $tcpage | grep -oP 'pirate-qt-ubuntu.*deb<' | sed 's/<//')
+tcdebaddr="https://github.com/PirateNetwork/pirate/releases/download/v$tcversion/$tcdeb"
+
+if [ "$1" == "tc" ] && [ "$tcdeb" != "" ]; then
+clear
+echo "Downloading the .deb installation package for Treasure Chest from GitHub..."
+wget -q $tcdebaddr
+echo
+echo "Done. For installation your password is needed."
+sudo dpkg -i $tcdeb
+if [ "$?" == "0" ]; then rm $tcdeb; fi
+echo
+echo "Installation successful. Enjoy! :)"
+fi
+
+
+# Lite Wallet download & installation
+
+lwgithublink="https://github.com/PirateNetwork/PirateWallet-Lite/releases/tag/$liteversion"
+lwpage=$(curl -s $lwgithublink)
+lwdeb=$(echo $lwpage | grep -oP 'linux-deb-.*deb')
+lwdebaddr="https://github.com/PirateNetwork/PirateWallet-Lite/releases/download/$liteversion/$lwdeb"
+
+if [ "$1" == "lw" ] && [ "$lwdeb" != "" ]; then
+clear
+echo "Downloading the .deb installation package for Lite Wallet from GitHub..."
+wget -q $lwdebaddr
+echo
+echo "Done. For installation your password is needed."
+sudo dpkg -i $lwdeb
+if [ "$?" == "0" ]; then rm $lwdeb; fi
+echo
+echo "Installation successful. Enjoy! :)"
+fi
