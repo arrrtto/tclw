@@ -144,7 +144,7 @@ fi
 
 lwgithublink="https://github.com/PirateNetwork/PirateWallet-Lite/releases/tag/$liteversion"
 lwpage=$(curl -s $lwgithublink)
-lwdeb=$(echo $lwpage | grep -oP 'linux-deb-.*deb')
+lwdeb=$(echo $lwpage | grep -oP 'linux-deb-.*deb' | sed -E 's/.*[[:space:]]//g')
 lwdebaddr="https://github.com/PirateNetwork/PirateWallet-Lite/releases/download/$liteversion/$lwdeb"
 
 if [ "$1" == "lw" ] && [ "$lwdeb" != "" ]; then
